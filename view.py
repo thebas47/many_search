@@ -1,6 +1,7 @@
 from searcher import CnpjSearcher
 from sheets import ExcelProcessor
 from interfaces import CliInterfaces as msg
+from interfaces import GuiInterfaces as gui
 import time
 
 msg.logo()
@@ -26,9 +27,13 @@ def main():
                 print(client)
 
             case '2':
-                sheet = ExcelProcessor("teste.xlsx")
-                sheet.process()
-                print("Processo terminado!")
+                file_path = gui.file_selector()
+                if file_path:
+                    sheet = ExcelProcessor(file_path)
+                    sheet.process()
+                    print("Processo terminado!")
+                else:
+                    print("Algo deu errado no processo")
 
             case 'exit':
                 print("Saindo do programa...")
