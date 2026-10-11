@@ -1,7 +1,7 @@
-from searcher import CnpjSearcher
-from sheets import ExcelProcessor
-from interfaces import CliInterfaces as msg
-from interfaces import GuiInterfaces as gui
+from services.searcher import CnpjSearcher
+from workers.excel_work import ExcelProcessor
+from interfaces.cli_interface import CliInterfaces as msg
+from interfaces.gui_interface import GuiInterfaces as gui
 import time
 
 msg.logo()

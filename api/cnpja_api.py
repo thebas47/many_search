@@ -1,9 +1,9 @@
 import requests
 
-class CnpjApiError(Exception):
+class CnpjaApiError(Exception):
     pass
 
-class CnpjApi:
+class CnpjaApi:
 
     @staticmethod
     def get_company(cnpj):
@@ -15,7 +15,7 @@ class CnpjApi:
             return response.json()
         
         except requests.exceptions.JSONDecodeError as error:
-            raise CnpjApiError from error
+            raise CnpjaApiError from error
         
         except requests.exceptions.RequestException as error:
-            raise CnpjApiError from error
+            raise CnpjaApiError from error

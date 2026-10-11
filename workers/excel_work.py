@@ -1,9 +1,9 @@
 from openpyxl import load_workbook
 import time
 from datetime import datetime
-from api import CnpjApi, CnpjApiError
-from cnpj import CnpjCleaner
-from parser import CnpjaParser
+from api.cnpja_api import CnpjaApi, CnpjaApiError
+from cleaners.cnpj import CnpjCleaner
+from parsers.cnpj.cnpja_parser import CnpjaParser
 
 
 class ExcelProcessor:
@@ -34,10 +34,10 @@ class ExcelProcessor:
 
         try:
             time.sleep(15)
-            data = CnpjApi.get_company(cnpj)
+            data = CnpjaApi.get_company(cnpj)
             client = CnpjaParser.parse(data)
 
-        except CnpjApiError:
+        except CnpjaApiError:
             worksheet.cell(row=row, column=2).value = "Erro na consulta"
             print(f"Não encontramos dados do CNPJ {cnpj}.")
             return

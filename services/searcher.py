@@ -1,7 +1,6 @@
-from api import CnpjApi, CnpjApiError
-from parser import CnpjaParser
-from cnpj import CnpjCleaner
-from sheets import ExcelProcessor
+from api.cnpja_api import CnpjaApi, CnpjaApiError
+from parsers.cnpj.cnpja_parser import CnpjaParser
+from cleaners.cnpj import CnpjCleaner
 
 class CnpjSearcher:
 
@@ -15,9 +14,9 @@ class CnpjSearcher:
             return
 
         try:
-            data = CnpjApi.get_company(cnpj)
+            data = CnpjaApi.get_company(cnpj)
 
-        except CnpjApiError:
+        except CnpjaApiError:
             print("Não foi possível consultar a API")
             return
 

@@ -2,30 +2,6 @@ import os, sys
 import tkinter as tk
 from tkinter import filedialog
 
-
-# Destinado a mensagens e interfaces no terminal
-class CliInterfaces:
-
-    def logo():
-        print(r"""Many Searcher ©
-=         =             
-= =     = =    =   =    = =   =
-=  =   =  =   = =  = =  =   =
-=   = =   =  =   = =  = =   =
-                                    Montana Software ™
-        """)
-
-    def salute(user):
-        print(f"\nSeja bem vindo ao Many Searcher © {user}!")
-
-    def catalogue():
-        print(r"""
-Qual busca pretende fazer?
-1 - Busca Unitária de CNPJ
-2 - CNPJ em Lote (Por planilha)
-exit - Para Sair do Programa
-        """)
-
 class GuiInterfaces:
 
     @staticmethod
@@ -53,17 +29,3 @@ class GuiInterfaces:
         except Exception as e:
             print(f"Erro selecionando arquivo: {e}, file=sys.stderr")
             return None
-
-
-
-
-
-
-
-
-
-
-
-
-
-            r
