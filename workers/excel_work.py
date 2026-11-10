@@ -1,10 +1,9 @@
 from openpyxl import load_workbook
 import time
 from datetime import datetime
-from api.cnpja_api import CnpjaApi, CnpjaApiError
+from api.cnpj.base_cnpj_api import BaseCnpjApiError
+from api.cnpj.api_cnpj_factory import ApiCnpjFactory
 from cleaners.cnpj import CnpjCleaner
-from parsers.cnpj.cnpja_parser import CnpjaParser
-
 
 class ExcelProcessor:
     def __init__(self, file_path):
@@ -31,18 +30,25 @@ class ExcelProcessor:
             worksheet.cell(row=row, column=2).value = "CNPJ inválido"
             print(f"O CNPJ {cnpj} é inválido ou contém um erro de digitação.")
             return
+        
+        providers = ApiCnpjFactory.get_providers()
+        for attempt, provider in enumerate(providers, start=1):
+            try:
+                time.sleep(0.2)
+                client = provider.search(cnpj)
 
-        try:
-            time.sleep(15)
-            data = CnpjaApi.get_company(cnpj)
-            client = CnpjaParser.parse(data)
+                if client is None:
+                    print(f"O {attempt}° provedor não retornou dados para o CNPJ {cnpj}"i)
+                    continue
+                self._write_client(worksheet, row, client)
+                return
 
-        except CnpjaApiError:
-            worksheet.cell(row=row, column=2).value = "Erro na consulta"
-            print(f"Não encontramos dados do CNPJ {cnpj}.")
-            return
+            except BaseCnpjApiError as error:
+                print(f"Falha no {attempt}° provedor")
+                continue
 
-        self._write_client(worksheet, row, client)
+        worksheet.cell(row=row, column=2).value = "Erro na Consulta"
+        print(f"Nenhum provedor encontrou dados para o CNPJ {cnpj}.")
 
     @staticmethod
     def _write_client(worksheet, row, client):
@@ -56,4 +62,5 @@ class ExcelProcessor:
         worksheet.cell(row=row, column=8).value = client.cep
         worksheet.cell(row=row, column=9).value = client.email
         worksheet.cell(row=row, column=10).value = client.fone
-        print(f"Processando...\nÚltimo Cliente processado: {client.razao}\nÚltima atualização: {datetime.now()}")
+        worksheet.cell(row=row, column=11).value = client.fonte
+        print(f"\nÚltima atualização: {datetime.now()}\nÚltimo CNPJ processado: {client.razao}\n")

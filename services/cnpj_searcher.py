@@ -1,5 +1,5 @@
-from api.cnpja_api import CnpjaApi, CnpjaApiError
-from parsers.cnpj.cnpja_parser import CnpjaParser
+from api.cnpj.base_cnpj_api import BaseCnpjApiError
+from api.cnpj.api_cnpj_factory import ApiCnpjFactory
 from cleaners.cnpj import CnpjCleaner
 
 class CnpjSearcher:
@@ -12,12 +12,21 @@ class CnpjSearcher:
         if not CnpjCleaner.is_valid(cnpj):
             print("CNPJ Invalido")
             return
+        
+        providers = ApiCnpjFactory.get_providers()
+        attempts = 0
+        for provider in providers:
 
-        try:
-            data = CnpjaApi.get_company(cnpj)
+            try:
+                client = provider.search(cnpj)
 
-        except CnpjaApiError:
-            print("Não foi possível consultar a API")
-            return
+                if client:
+                    return client
 
-        return CnpjaParser.parse(data)
+            except BaseCnpjApiError as error:
+                attempts += 1
+                print(f"Falha no {attempts}° provedor, Trocando provedor...\n")
+                continue
+
+        print("\nNenhuma API Conseguiu consultar o CNPJ")
+        return None
