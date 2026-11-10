@@ -23,4 +23,5 @@ class CnpjaParser:
             cep=address.get("zip", "Não Informado"),
             email=email.get("address", "Não Informado"),
             fone=phone.get("area", "") + phone.get("number", ""),
+            fonte="CNPJA API"
         )

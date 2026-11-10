@@ -7,7 +7,6 @@ class CnpjaApiError(BaseCnpjApiError):
 
 class CnpjaApi(BaseCnpjApi):
 
-    @staticmethod
     def get_company(self, cnpj: str) -> dict:
         base_url = f"https://open.cnpja.com/office/{cnpj}"
 

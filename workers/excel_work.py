@@ -38,7 +38,7 @@ class ExcelProcessor:
                 client = provider.search(cnpj)
 
                 if client is None:
-                    print(f"O {attempt}° provedor não retornou dados para o CNPJ {cnpj}"i)
+                    print(f"O {attempt}° provedor não retornou dados para o CNPJ {cnpj}")
                     continue
                 self._write_client(worksheet, row, client)
                 return
