@@ -1,4 +1,4 @@
-from api.viacep_api import ViacepApi, ViacepApiError
+from api.cep.viacep_api import ViacepApi, ViacepApiError
 from parsers.cep.viacep_parser import ViacepParser
 from cleaners.cep import CepCleaner
 

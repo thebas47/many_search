@@ -12,6 +12,7 @@ class Client:
     cep: str
     email: str
     fone: str
+    fonte: str
 
     def __str__(self):
         return(
@@ -25,4 +26,5 @@ class Client:
             f"CEP: {self.cep}\n"
             f"E-mail: {self.email}\n"
             f"Telefone: {self.fone}\n"
+            f"Fonte do dado: {self.fonte}\n"
         )

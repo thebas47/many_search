@@ -1,12 +1,13 @@
 import requests
 
-class CnpjaApiError(Exception):
+from api.cnpj.base_cnpj_api import BaseCnpjApi, BaseCnpjApiError
+
+class CnpjaApiError(BaseCnpjApiError):
     pass
 
-class CnpjaApi:
+class CnpjaApi(BaseCnpjApi):
 
-    @staticmethod
-    def get_company(cnpj):
+    def get_company(self, cnpj: str) -> dict:
         base_url = f"https://open.cnpja.com/office/{cnpj}"
 
         try:
